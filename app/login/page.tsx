@@ -13,8 +13,11 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
+import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 
 const LoginPage = () => {
+  const router = useRouter();
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [error, setError] = React.useState<string | null>(null);
@@ -26,9 +29,27 @@ const LoginPage = () => {
     setError(null);
 
     try {
-      // Perform login logic here
+      const { data, error } = await authClient.signIn.email(
+        {
+          email, // user email address
+          password, // user password -> min 8 characters by default
+          callbackURL: "/dashboard", // A URL to redirect to after the user verifies their email (optional)
+        },
+        {
+          onRequest: (ctx) => {
+            //show loading
+          },
+          onSuccess: (ctx) => {
+            router.push("/dashboard");
+          },
+          onError: (ctx) => {
+            // display the error message
+            setError(ctx.error.message || "Login failed. Please try again.");
+          },
+        }
+      );
     } catch (error) {
-      setError("Login failed");
+      setError("Login failed. Please try again.");
     } finally {
       setLoading(false);
     }

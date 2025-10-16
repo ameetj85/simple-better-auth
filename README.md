@@ -1,3 +1,7 @@
+## Installing and Configuring Prisma in Next.js App Router
+
+- https://ckriswinarto.medium.com/installing-and-configuring-prisma-in-next-js-app-router-d02a5ee4d0b5
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
